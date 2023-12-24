@@ -18,4 +18,14 @@ public class TriangleTest {
         Assertions.assertEquals(6.0, result);
     }
 
+    @Test
+    void cannotCreateTriangleWithWrongSides(){
+        try{
+            new Triangle(1.0, 1.5, 6.0);
+            Assertions.fail();
+        }catch (IllegalArgumentException ex) {
+            //OK
+        }
+    }
+
 }
