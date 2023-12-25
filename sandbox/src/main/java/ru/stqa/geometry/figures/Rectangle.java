@@ -18,7 +18,7 @@ public record Rectangle (double a, double b){
         System.out.println(text);
     }
 
-    @Override
+     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
