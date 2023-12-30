@@ -1,3 +1,4 @@
+import model.GroupData;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
@@ -38,12 +39,12 @@ public class TestBase {
 
     }
 
-    protected void createGroup(String groupName, String headerName, String footerName) {
+    protected void createGroup(GroupData group) {
         driver.findElement(By.name("new")).click();
         driver.findElement(By.name("group_name")).click();
-        driver.findElement(By.name("group_name")).sendKeys(groupName);
-        driver.findElement(By.name("group_header")).sendKeys(headerName);
-        driver.findElement(By.name("group_footer")).sendKeys(footerName);
+        driver.findElement(By.name("group_name")).sendKeys(group.name());
+        driver.findElement(By.name("group_header")).sendKeys(group.header());
+        driver.findElement(By.name("group_footer")).sendKeys(group.footer());
         driver.findElement(By.name("submit")).click();
         driver.findElement(By.linkText("group page")).click();
     }
