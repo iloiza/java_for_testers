@@ -10,22 +10,11 @@ public class GroupHelper extends HelperBase {
 
     }
 
-    public void openGroupPage() {
-        if (!manager.isElementPresent(By.name("new"))) {
-            click(By.linkText("groups"));
-        }
-    }
-
-    public boolean isGroupPresent() {
-        openGroupPage();
-        return !manager.isElementPresent(By.name("selected[]"));
-    }
-
     public void createGroup(GroupData group) {
         openGroupPage();
         initGroupCreation();
         fillGroupForm(group);
-        submitGroupCreation();
+        submitItemCreation();
         returnToGroupsPage();
     }
 
@@ -45,14 +34,23 @@ public class GroupHelper extends HelperBase {
         returnToGroupsPage();
     }
 
+    public void openGroupPage() {
+        if (!manager.isElementPresent(By.name("new"))) {
+            click(By.linkText("groups"));
+        }
+    }
+
+    public boolean isGroupPresent() {
+        openGroupPage();
+        return !manager.isElementPresent(By.name("selected[]"));
+    }
+
     private void removeSelectedGroup() {
         click(By.name("delete"));
     }
 
 
-    private void submitGroupCreation() {
-        click(By.name("submit"));
-    }
+
 
     private void initGroupCreation() {
         click(By.name("new"));
