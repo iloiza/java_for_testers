@@ -1,18 +1,38 @@
 package tests;
 
 import model.ContactData;
+import model.GroupData;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContactCreationTests extends TestBase{
-    @Test
-    public void createNewContact() {
-        app.contacts().createContacts(new ContactData("Smith", "Sam",
-                "New York", "mrsmith@ya.ru", "8957774444"));
+
+    public static List<ContactData> contactProvider() {
+        var result = new ArrayList<ContactData>();
+        for (var firstName : List.of("", "Harry")) {
+            for (var lastName : List.of("", "Potter")) {
+                    result.add(new ContactData(firstName, lastName, "", "", ""));
+            }
+        }
+        for (int i = 0; i < 5; i++) {
+            result.add(new ContactData(randomString(i * 10), randomString(i * 10), "", "", ""));
+        }
+        return result;
+    }
+
+    @ParameterizedTest
+    @MethodSource("contactProvider")
+    public void canCreateMultipleContacts(ContactData contact) {
+        int contactCount = app.contacts().getCount();
+        app.contacts().createContacts(contact);
+        int newContactCount = app.contacts().getCount();
+        Assertions.assertEquals(contactCount + 1, newContactCount);
 
     }
 
-    @Test
-    public void createNewContactWithLastNameOnly() {
-        app.contacts().createContacts(new ContactData().withLastName("Potter"));
-    }
 }
