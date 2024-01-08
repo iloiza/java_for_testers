@@ -7,7 +7,10 @@ public class GroupCreationTests extends TestBase{
 
     @Test
     public void createNewGroup() {
+        int groupCount = app.groups().getCount();
         app.groups().createGroup(new GroupData("Group 1", "Header Group", "Footer Group"));
+        int newGroupCount = app.groups().getCount();
+        Assertions.assertEquals(groupCount + 1, newGroupCount);
 
     }
 

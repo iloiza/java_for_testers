@@ -21,7 +21,7 @@ public class CollectionsTests {
 
     void listTests() {
         var list = new ArrayList<>(List.of("a", "b", "c"));
-       
+
         Assertions.assertEquals(3, list.size());
         Assertions.assertEquals("a", list.get(0));
 

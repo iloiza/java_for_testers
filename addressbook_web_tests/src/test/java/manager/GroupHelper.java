@@ -40,17 +40,9 @@ public class GroupHelper extends HelperBase {
         }
     }
 
-    public boolean isGroupPresent() {
-        openGroupPage();
-        return !manager.isElementPresent(By.name("selected[]"));
-    }
-
     private void removeSelectedGroup() {
         click(By.name("delete"));
     }
-
-
-
 
     private void initGroupCreation() {
         click(By.name("new"));
@@ -77,5 +69,10 @@ public class GroupHelper extends HelperBase {
 
     private void selectGroup() {
         click(By.name("selected[]"));
+    }
+
+    public int getCount() {
+        openGroupPage();
+        return manager.driver.findElements(By.name("selected[]")).size();
     }
 }
