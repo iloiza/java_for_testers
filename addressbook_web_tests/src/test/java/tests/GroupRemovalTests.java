@@ -20,5 +20,15 @@ public class GroupRemovalTests extends TestBase {
         }
     }
 
+    @Test
+    void canRemoveAllGroupsAtOnce() {
+        {
+            if (app.groups().getCount() == 0) {
+                app.groups().createGroup(new GroupData("Group_1", "Header_Group", "Footer_Group"));
+            }
+        }
+        app.groups().removeAllGroups();
+        Assertions.assertEquals(0, app.groups().getCount());
 
+    }
 }
