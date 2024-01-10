@@ -8,17 +8,17 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContactCreationTests extends TestBase{
+public class ContactCreationTests extends TestBase {
 
     public static List<ContactData> contactProvider() {
         var result = new ArrayList<ContactData>();
         for (var firstName : List.of("", "Harry")) {
             for (var lastName : List.of("", "Potter")) {
-                    result.add(new ContactData(firstName, lastName, "", "", ""));
+                result.add(new ContactData("", firstName, lastName, "", "", ""));
             }
         }
         for (int i = 0; i < 5; i++) {
-            result.add(new ContactData(randomString(i * 10), randomString(i * 10), "", "", ""));
+            result.add(new ContactData("", randomString(i * 10), randomString(i * 10), "", "", ""));
         }
         return result;
     }
@@ -26,10 +26,10 @@ public class ContactCreationTests extends TestBase{
     @ParameterizedTest
     @MethodSource("contactProvider")
     public void canCreateMultipleContacts(ContactData contact) {
-        int contactCount = app.contacts().getCount();
+        var oldContacts = app.contacts().getList();
         app.contacts().createContacts(contact);
-        int newContactCount = app.contacts().getCount();
-        Assertions.assertEquals(contactCount + 1, newContactCount);
+        var newContacts = app.contacts().getList();
+        Assertions.assertEquals(newContacts, oldContacts);
 
     }
 
