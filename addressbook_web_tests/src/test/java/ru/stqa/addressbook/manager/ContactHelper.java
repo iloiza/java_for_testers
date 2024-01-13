@@ -1,11 +1,10 @@
-package manager;
+package ru.stqa.addressbook.manager;
 
-import model.ContactData;
+import ru.stqa.addressbook.model.ContactData;
 import org.openqa.selenium.By;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 
 public class ContactHelper extends HelperBase {
@@ -26,6 +25,7 @@ public class ContactHelper extends HelperBase {
         type(By.name("address"), contact.address());
         type(By.name("mobile"), contact.phones());
         type(By.name("email"), contact.email());
+        attach(By.name("photo"), contact.photo());
 
     }
 

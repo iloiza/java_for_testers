@@ -1,6 +1,6 @@
-package tests;
+package ru.stqa.addressbook.tests;
 
-import model.ContactData;
+import ru.stqa.addressbook.model.ContactData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +15,7 @@ public class ContactModificationTests extends TestBase{
         {
             if (app.contacts().isContactsPresent()) {
                 app.contacts().createContacts(new ContactData("", "Potter", "Harry",
-                        "London", "mrpotter@hw.ru", "9957774444"));
+                        "London", "mrpotter@hw.ru", "9957774444", ""));
             }
         }
         var oldContacts = app.contacts().getList();

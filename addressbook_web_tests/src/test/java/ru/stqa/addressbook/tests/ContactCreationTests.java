@@ -1,7 +1,8 @@
-package tests;
+package ru.stqa.addressbook.tests;
 
-import model.ContactData;
+import ru.stqa.addressbook.model.ContactData;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -15,11 +16,11 @@ public class ContactCreationTests extends TestBase {
         var result = new ArrayList<ContactData>();
         for (var firstName : List.of("", "Harry")) {
             for (var lastName : List.of("", "Potter")) {
-                result.add(new ContactData("", firstName, lastName, "", "", ""));
+                result.add(new ContactData("", firstName, lastName, "", "", "", ""));
             }
         }
         for (int i = 0; i < 5; i++) {
-            result.add(new ContactData("", randomString(i * 10), randomString(i * 10), "", "", ""));
+            result.add(new ContactData("", randomString(i * 10), randomString(i * 10), "", "", "", ""));
         }
         return result;
     }
@@ -39,6 +40,16 @@ public class ContactCreationTests extends TestBase {
         expectedList.sort(compareById);
         Assertions.assertEquals(newContacts, expectedList);
 
+    }
+
+    @Test
+    public void canCreateOneContact() {
+        var contact = new ContactData().
+                withLastName(randomString(10)).
+                withFirstName(randomString(10)).
+                withPhoto(randomFile("addressbook_web_tests/src/test/resources/images/"));
+        //D:\repo\java_for_testers\java_for_testers\addressbook_web_tests\src\test\resources\images
+        app.contacts().createContacts(contact);
     }
 
 }
