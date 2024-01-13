@@ -2,6 +2,8 @@ package manager;
 
 import org.openqa.selenium.By;
 
+import java.util.concurrent.TimeUnit;
+
 public class HelperBase {
     protected final ApplicationManager manager;
 
@@ -9,9 +11,6 @@ public class HelperBase {
         this.manager = manager;
     }
 
-    public void submitItemCreation() {
-        click(By.name("submit"));
-    }
 
     protected void type(By locator, String text) {
         click(locator);
@@ -24,4 +23,13 @@ public class HelperBase {
     }
 
 
+    protected void submitItemModification() {
+        click(By.name("update"));
+    }
+
+    public void submitItemCreation() { click(By.name("submit")); }
+
+    public void waitingHomePage() {
+        manager.driver.manage().timeouts().implicitlyWait(3000, TimeUnit.MILLISECONDS);
+    }
 }
