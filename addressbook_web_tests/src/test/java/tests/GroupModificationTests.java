@@ -27,7 +27,7 @@ public class GroupModificationTests extends TestBase{
             return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
         };
         newGroups.sort(compareById);
-        expectedList.sort((compareById));
+        expectedList.sort(compareById);
         Assertions.assertEquals(newGroups, expectedList);
     }
 }

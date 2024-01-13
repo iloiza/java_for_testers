@@ -85,4 +85,14 @@ public class ContactHelper extends HelperBase {
             contacts.add(new ContactData().withId(id).withFirstName(titleName));
         }
         return contacts;    }
+
+    public void modifyContact(ContactData contact, ContactData modifiedContact) {
+        initContactModification(contact);
+        fillContactForm(modifiedContact);
+        submitItemCreation();
+    }
+
+    private void initContactModification(ContactData contact) {
+        click(By.cssSelector(String.format("input[value='%s']", contact.id())));
+    }
 }
