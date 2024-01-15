@@ -19,6 +19,7 @@ public class ContactHelper extends HelperBase {
         returnToHomePage();
     }
 
+
     private void fillContactForm(ContactData contact) {
         type(By.name("firstname"), contact.firstName());
         type(By.name("lastname"), contact.lastName());

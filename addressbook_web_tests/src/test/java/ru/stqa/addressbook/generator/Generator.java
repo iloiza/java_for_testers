@@ -4,7 +4,9 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
+import ru.stqa.addressbook.model.ContactData;
 import ru.stqa.addressbook.model.GroupData;
 
 import java.io.File;
@@ -55,9 +57,12 @@ public class Generator {
         } if ("yaml".equals(format)){
             var mapper = new YAMLMapper();
             mapper.writeValue(new File(output), data);
+        }if ("xml".equals(format)) {
+            var mapper = new XmlMapper();
+            mapper.writeValue(new File(output), data);
         }
         else {
-            throw new IllegalArgumentException("Неизвестный формат данных" + format);
+            throw new IllegalArgumentException("Неизвестный формат данных " + format);
         }
     }
 
@@ -67,7 +72,7 @@ public class Generator {
         } else if ("contacts".equals(type)){
             return generateContacts();
         } else {
-            throw new IllegalArgumentException("Неизвестный тип данных" + type);
+            throw new IllegalArgumentException("Неизвестный тип данных " + type);
         }
     }
 
@@ -82,7 +87,16 @@ public class Generator {
     }
 
     private Object generateContacts() {
-        return null;
+        var result = new ArrayList<ContactData>();
+        for (int i = 0; i < count; i++) {
+            result.add(new ContactData().withFirstName(randomString(i * 10)).
+                    withLastName(randomString(i * 10)).
+                    withAddress(randomString(i * 10)).
+                    withEmail(randomString(i * 10)).
+                    withPhones(randomString(i * 10)).
+                    withPhoto(randomString(i * 10)));
+        }
+        return result;
     }
 
 }
