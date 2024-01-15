@@ -1,5 +1,6 @@
 package ru.stqa.addressbook.tests;
 
+import ru.stqa.addressbook.common.CommonFunctions;
 import ru.stqa.addressbook.model.ContactData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ public class ContactCreationTests extends TestBase {
             }
         }
         for (int i = 0; i < 5; i++) {
-            result.add(new ContactData("", randomString(i * 10), randomString(i * 10), "", "", "", ""));
+            result.add(new ContactData("", CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10), "", "", "", ""));
         }
         return result;
     }
@@ -45,8 +46,8 @@ public class ContactCreationTests extends TestBase {
     @Test
     public void canCreateOneContact() {
         var contact = new ContactData().
-                withLastName(randomString(10)).
-                withFirstName(randomString(10)).
+                withLastName(CommonFunctions.randomString(10)).
+                withFirstName(CommonFunctions.randomString(10)).
                 withPhoto(randomFile("addressbook_web_tests/src/test/resources/images/"));
         //D:\repo\java_for_testers\java_for_testers\addressbook_web_tests\src\test\resources\images
         app.contacts().createContacts(contact);
