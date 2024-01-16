@@ -35,6 +35,6 @@ public class HelperBase {
     public void submitItemCreation() { click(By.name("submit")); }
 
     public void waitingHomePage() {
-        manager.driver.manage().timeouts().implicitlyWait(3000, TimeUnit.MILLISECONDS);
+        manager.driver.manage().timeouts().implicitlyWait(2000, TimeUnit.MILLISECONDS);
     }
 }
