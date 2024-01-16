@@ -15,6 +15,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static ru.stqa.addressbook.common.CommonFunctions.randomFile;
 import static ru.stqa.addressbook.common.CommonFunctions.randomString;
 
 public class Generator {
@@ -94,7 +95,7 @@ public class Generator {
                     withAddress(randomString(i * 10)).
                     withEmail(randomString(i * 10)).
                     withPhones(randomString(i * 10)).
-                    withPhoto(randomString(i * 10)));
+                    withPhoto(randomFile("addressbook_web_tests/src/test/resources/images/")));
         }
         return result;
     }

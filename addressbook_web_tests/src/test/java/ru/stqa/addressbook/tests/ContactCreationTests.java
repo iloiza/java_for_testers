@@ -52,7 +52,7 @@ public class ContactCreationTests extends TestBase {
         var contact = new ContactData().
                 withLastName(CommonFunctions.randomString(10)).
                 withFirstName(CommonFunctions.randomString(10)).
-                withPhoto(randomFile("addressbook_web_tests/src/test/resources/images/"));
+                withPhoto(CommonFunctions.randomFile("addressbook_web_tests/src/test/resources/images/"));
         //D:\repo\java_for_testers\java_for_testers\addressbook_web_tests\src\test\resources\images
         app.contacts().createContacts(contact);
     }

@@ -92,6 +92,7 @@ public class ContactHelper extends HelperBase {
             var firstName = className.findElement
                             (By.xpath(String.format("//input[@id='%s']/parent::td/following-sibling::td[2]", id)))
                     .getAttribute("innerText");
+
             contacts.add(new ContactData().withId(id).withLastName(lastName).withFirstName(firstName));
         }
         return contacts;
