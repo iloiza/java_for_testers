@@ -55,10 +55,10 @@ public class Generator {
             try (var writer = new FileWriter(output)) {
                 writer.write(json);
             }
-        } if ("yaml".equals(format)){
+        } else if ("yaml".equals(format)){
             var mapper = new YAMLMapper();
             mapper.writeValue(new File(output), data);
-        }if ("xml".equals(format)) {
+        } else if ("xml".equals(format)) {
             var mapper = new XmlMapper();
             mapper.writeValue(new File(output), data);
         }
@@ -93,7 +93,7 @@ public class Generator {
             result.add(new ContactData().withFirstName(randomString(i * 10)).
                     withLastName(randomString(i * 10)).
                     withAddress(randomString(i * 10)).
-                    withPhoto(randomFile("addressbook_web_tests/src/test/resources/images/")));
+                    withPhoto(randomFile("src/test/resources/images/")));
         }
         return result;
     }
