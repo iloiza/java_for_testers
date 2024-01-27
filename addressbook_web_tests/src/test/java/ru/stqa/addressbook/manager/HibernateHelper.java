@@ -18,7 +18,7 @@ public class HibernateHelper extends HelperBase {
 
         sessionFactory =
                 new Configuration()
-                        //.addAnnotatedClass(Book.class)
+                        .addAnnotatedClass(ContactHelper.class)
                         .addAnnotatedClass(GroupRecord.class)
                         .setProperty(AvailableSettings.URL, "jdbc:mysql://localhost/addressbook")
                         .setProperty(AvailableSettings.USER, "root")
