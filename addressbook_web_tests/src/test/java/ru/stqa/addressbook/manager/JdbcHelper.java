@@ -35,7 +35,7 @@ public class JdbcHelper extends HelperBase{
         try (var conn = DriverManager.getConnection("jdbc:mysql://localhost/addressbook", "root", "");
              var statement = conn.createStatement();
              var result = statement.executeQuery
-                     ("SELECT * FROM 'address_in_groups' ag LEFT JOIN addressbook ab ON ab.id = ag.id WHERE ab.id is NULL"))
+                     ("SELECT * FROM address_in_groups ag LEFT JOIN addressbook ab ON ab.id = ag.id WHERE ab.id is NULL"))
         {
             if (result.next()){
                 throw new IllegalStateException("DB is corrupted");
