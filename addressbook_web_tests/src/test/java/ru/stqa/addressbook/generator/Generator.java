@@ -93,7 +93,7 @@ public class Generator {
             result.add(new ContactData().withFirstName(randomString(i * 10)).
                     withLastName(randomString(i * 10)).
                     withAddress(randomString(i * 10)).
-                    withPhoto(randomFile("addressbook_web_tests/src/test/resources/images/")));
+                    withPhoto(randomFile("src/test/resources/images/")));
         }
         return result;
     }

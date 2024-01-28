@@ -73,12 +73,10 @@ public class ContactCreationTests extends TestBase {
 
     @Test
     public void canCreateOneContactInGroup() {
-        System.out.println("Current Working Directory: " + System.getProperty("user.dir"));
-
         var contact = new ContactData().
                 withLastName(CommonFunctions.randomString(10)).
                 withFirstName(CommonFunctions.randomString(10)).
-                withPhoto(CommonFunctions.randomFile("D:/repo/java_for_testers/addressbook_web_tests/src/test/resources/images/"));
+                withPhoto(CommonFunctions.randomFile("src/test/resources/images/"));
         //D:\repo\java_for_testers\addressbook_web_tests\src\test\resources\images\avatar.png
         if (app.hbm().getGroupCount() == 0) {
             app.hbm().createGroup(new GroupData("", "Group_1", "Header_Group", "Footer_Group"));

@@ -12,7 +12,10 @@ public class ContactRecord {
     public String firstName;
     public String lastName;
     public String address;
-    @ManyToMany(mappedBy = "contacts")
+    @ManyToMany
+    @JoinTable(name = "address_in_groups",
+            joinColumns = @JoinColumn(name = "group_id"),
+            inverseJoinColumns = @JoinColumn(name = "id"))
 
     public List<GroupRecord> group;
     public ContactRecord (int id, String firstName, String lastName, String address){
