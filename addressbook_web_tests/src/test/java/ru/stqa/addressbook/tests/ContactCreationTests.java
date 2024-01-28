@@ -9,6 +9,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import ru.stqa.addressbook.common.CommonFunctions;
 import ru.stqa.addressbook.model.ContactData;
+import ru.stqa.addressbook.model.GroupData;
 
 import java.io.File;
 import java.io.IOException;
@@ -70,4 +71,24 @@ public class ContactCreationTests extends TestBase {
         app.contacts().createContacts(contact);
     }
 
-}
+    @Test
+    public void canCreateOneContactInGroup() {
+        System.out.println("Current Working Directory: " + System.getProperty("user.dir"));
+
+        var contact = new ContactData().
+                withLastName(CommonFunctions.randomString(10)).
+                withFirstName(CommonFunctions.randomString(10)).
+                withPhoto(CommonFunctions.randomFile("D:/repo/java_for_testers/addressbook_web_tests/src/test/resources/images/"));
+        //D:\repo\java_for_testers\addressbook_web_tests\src\test\resources\images\avatar.png
+        if (app.hbm().getGroupCount() == 0) {
+            app.hbm().createGroup(new GroupData("", "Group_1", "Header_Group", "Footer_Group"));
+        }
+        var group = app.hbm().getGroupList().get(0);
+
+        var oldRelated = app.hbm().getContactsInGroup(group);
+        app.contacts().createContactsInGroup(contact, group);
+        var newRelated = app.hbm().getContactsInGroup(group);
+        Assertions.assertEquals(oldRelated.size() + 1, newRelated.size());
+    }
+
+}//D:\repo\java_for_testers\addressbook_web_tests\src\test\resources\images\avatar.png
