@@ -15,8 +15,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static ru.stqa.addressbook.common.CommonFunctions.randomFile;
-import static ru.stqa.addressbook.common.CommonFunctions.randomString;
+import static ru.stqa.addressbook.common.CommonFunctions.*;
 
 public class Generator {
     @Parameter(names={"--type", "-t"})
@@ -89,11 +88,15 @@ public class Generator {
 
     private Object generateContacts() {
         var result = new ArrayList<ContactData>();
+        boolean empty = true;
         for (int i = 0; i < count; i++) {
             result.add(new ContactData().withFirstName(randomString(i * 10)).
                     withLastName(randomString(i * 10)).
                     withAddress(randomString(i * 10)).
+                    withEmail(randomString(i * 10)).
+                    withPhones(randomNumber(empty)).
                     withPhoto(randomFile("src/test/resources/images/")));
+            empty = false;
         }
         return result;
     }

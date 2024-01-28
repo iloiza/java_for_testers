@@ -96,6 +96,7 @@ public class GroupCreationTests extends TestBase {
         expectedList.add(group.withId(maxId));
         expectedList.sort(compareById);
         Assertions.assertEquals(newGroups, expectedList);
+
     }
 
     @ParameterizedTest

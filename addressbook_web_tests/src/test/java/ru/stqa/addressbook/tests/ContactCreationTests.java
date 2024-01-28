@@ -42,20 +42,16 @@ public class ContactCreationTests extends TestBase {
     @ParameterizedTest
     @MethodSource("contactProvider")
     public void canCreateMultipleContacts(ContactData contact) {
-        var oldContacts = app.contacts().getList();
+        var oldContacts = app.hbm().getContactList();
         app.contacts().createContacts(contact);
-        var newContacts = app.contacts().getList();
+        var newContacts = app.hbm().getContactList();
         Comparator<ContactData> compareById = (o1, o2) -> {
             return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
         };
         newContacts.sort(compareById);
         var expectedList = new ArrayList<>(oldContacts);
         expectedList.add(contact.
-                withId(newContacts.get(newContacts.size() - 1).id()).
-                withAddress("").
-                withEmail("").
-                withPhones("").
-                withPhoto(""));
+                withId(newContacts.get(newContacts.size() - 1).id()));
         expectedList.sort(compareById);
         Assertions.assertEquals(newContacts, expectedList);
 
@@ -66,7 +62,7 @@ public class ContactCreationTests extends TestBase {
         var contact = new ContactData().
                 withLastName(CommonFunctions.randomString(10)).
                 withFirstName(CommonFunctions.randomString(10)).
-                withPhoto(CommonFunctions.randomFile("addressbook_web_tests/src/test/resources/images/"));
+                withPhoto(CommonFunctions.randomFile("src/test/resources/images/"));
         //D:\repo\java_for_testers\java_for_testers\addressbook_web_tests\src\test\resources\images
         app.contacts().createContacts(contact);
     }
