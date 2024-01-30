@@ -14,6 +14,16 @@ public class ContactRecord {
     public String address;
     public String email;
     public String mobile;
+    public String middlename = new String();
+    public String nickname= new String();
+    public String company= new String();
+    public String title= new String();
+    public String home= new String();
+    public String work= new String();
+    public String fax= new String();
+    public String email2= new String();
+    public String email3= new String();
+    public String homepage= new String();
     @ManyToMany
     @JoinTable(name = "address_in_groups",
             joinColumns = @JoinColumn(name = "group_id"),

@@ -5,6 +5,8 @@ import org.openqa.selenium.By;
 import java.nio.file.Paths;
 import java.util.concurrent.TimeUnit;
 
+import static java.lang.System.getProperty;
+
 public class HelperBase {
     protected final ApplicationManager manager;
 
@@ -34,7 +36,12 @@ public class HelperBase {
 
     public void submitItemCreation() { click(By.name("submit")); }
 
-    public void waitingHomePage() {
-        manager.driver.manage().timeouts().implicitlyWait(2000, TimeUnit.MILLISECONDS);
+    public void waiting() {
+        manager.driver.manage().timeouts().implicitlyWait(3000, TimeUnit.MILLISECONDS);
+    }
+
+    public void refreshPage() {
+        manager.driver.get("http://localhost/addressbook/");
+        manager.driver.navigate().refresh();
     }
 }

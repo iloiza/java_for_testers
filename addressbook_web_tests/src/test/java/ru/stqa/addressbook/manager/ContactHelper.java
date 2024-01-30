@@ -26,7 +26,23 @@ public class ContactHelper extends HelperBase {
         fillContactForm(contact);
         selectGroup(group);
         submitItemCreation();
+        waiting();
         returnToHomePage();
+    }
+
+    public void removeContactFromGroup(ContactData contact, GroupData group) {
+        selectGroupWithContactList(group);
+        selectContact(contact);
+        waiting();
+        removeSelectedContactFromGroup();
+    }
+
+    private void removeSelectedContactFromGroup() {
+        click(By.name("remove"));
+    }
+
+    private void selectGroupWithContactList(GroupData group) {
+        new Select(manager.driver.findElement(By.xpath("//select[@name='group']"))).selectByValue(group.id());
     }
 
     private void selectGroup(GroupData group) {
@@ -57,10 +73,10 @@ public class ContactHelper extends HelperBase {
     }
 
     public void removeContact(ContactData contact) {
+        waiting();
+        refreshPage();
         selectContact(contact);
         removeSelectedContact();
-        waitingHomePage();
-
     }
 
     private void returnToHomePage() {
@@ -76,7 +92,7 @@ public class ContactHelper extends HelperBase {
     }
 
     private void removeSelectedContact() {
-        click(By.xpath("//input[@value=\'Delete\']"));
+        click(By.xpath("//input[@value='Delete']"));
     }
 
     private void selectContact(ContactData contact) {
@@ -114,4 +130,6 @@ public class ContactHelper extends HelperBase {
     private void initContactModification(ContactData contact) {
         click(By.xpath(String.format("//a[@href='edit.php?id=%s']", contact.id())));
     }
+
+
 }

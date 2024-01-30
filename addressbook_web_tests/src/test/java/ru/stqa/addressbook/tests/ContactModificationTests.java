@@ -1,5 +1,6 @@
 package ru.stqa.addressbook.tests;
 
+import ru.stqa.addressbook.common.CommonFunctions;
 import ru.stqa.addressbook.model.ContactData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -21,11 +22,12 @@ public class ContactModificationTests extends TestBase{
         var oldContacts = app.hbm().getContactList();
         var rnd = new Random();
         var index = rnd.nextInt(oldContacts.size());
-        ContactData testData = new ContactData().withFirstName("ModifyContactName");
+        ContactData testData = new ContactData().withFirstName("ModifyContactName")
+                .withPhoto(CommonFunctions.randomFile("src/test/resources/images/"));
         app.contacts().modifyContact(oldContacts.get(index), testData);
         var newContacts = app.hbm().getContactList();
         var expectedList = new ArrayList<>(oldContacts);
-        expectedList.set(index, testData.withId(oldContacts.get(index).id()));
+        expectedList.set(index, testData.withId(oldContacts.get(index).id()).withPhoto(""));
         Comparator<ContactData> compareById = (o1, o2) -> {
             return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
         };
