@@ -1,5 +1,6 @@
 package ru.stqa.addressbook.manager;
 
+import org.openqa.selenium.WebElement;
 import ru.stqa.addressbook.model.GroupData;
 import org.openqa.selenium.By;
 
@@ -82,10 +83,9 @@ public class GroupHelper extends HelperBase {
     }
 
     private void selectAllGroups() {
-        var checkboxes = manager.driver.findElements(By.name("selected[]"));
-        for (var checkbox : checkboxes) {
-            checkbox.click();
-        }
+        manager.driver
+                .findElements(By.name("selected[]"))
+                .forEach(WebElement::click);
     }
 
     public List<GroupData> getList() {
