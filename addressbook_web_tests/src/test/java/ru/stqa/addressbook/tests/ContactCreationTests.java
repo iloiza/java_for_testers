@@ -33,8 +33,7 @@ public class ContactCreationTests extends TestBase {
 //        return result;
         var json = Files.readString(Paths.get("contacts.json"));
         ObjectMapper mapper = new ObjectMapper();
-        var value = mapper.readValue(json, new TypeReference<List<ContactData>>() {
-        });
+        var value = mapper.readValue(json, new TypeReference<List<ContactData>>() {});
         result.addAll(value);
         return result;
     }
@@ -43,7 +42,7 @@ public class ContactCreationTests extends TestBase {
     @MethodSource("contactProvider")
     public void canCreateMultipleContacts(ContactData contact) {
         var oldContacts = app.hbm().getContactList();
-        app.hbm().createContacts(contact);
+        app.contacts().createContacts(contact);
         var newContacts = app.hbm().getContactList();
         Comparator<ContactData> compareById = (o1, o2) -> {
             return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
@@ -51,7 +50,7 @@ public class ContactCreationTests extends TestBase {
         newContacts.sort(compareById);
         var expectedList = new ArrayList<>(oldContacts);
         expectedList.add(contact.
-                withId(newContacts.get(newContacts.size() - 1).id()).withPhones("").withPhoto(""));
+                withId(newContacts.get(newContacts.size() - 1).id()).withPhoto(""));
         expectedList.sort(compareById);
         Assertions.assertEquals(newContacts, expectedList);
 
