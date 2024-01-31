@@ -14,6 +14,10 @@ import java.io.FileDescriptor;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static ru.stqa.addressbook.common.CommonFunctions.*;
 
@@ -76,29 +80,24 @@ public class Generator {
         }
     }
 
+    private Object generateData(Supplier<Object> dataSupplier) {
+        return Stream.generate(dataSupplier).limit(count).collect(Collectors.toList());
+    }
+
     private Object generateGroups() {
-        var result = new ArrayList<GroupData>();
-        for (int i = 0; i < count; i++) {
-            result.add(new GroupData().withName(randomString(i * 10)).
-                    withHeader(randomString(i * 10)).
-                    withFooter(randomString(i * 10)));
-        }
-        return result;
+        return generateData(() -> new GroupData().
+                withName(randomString(10)).
+                withHeader(randomString(10)).
+                withFooter(randomString(10)));
     }
 
     private Object generateContacts() {
-        var result = new ArrayList<ContactData>();
-        boolean empty = true;
-        for (int i = 0; i < count; i++) {
-            result.add(new ContactData().withFirstName(randomString(i * 10)).
-                    withLastName(randomString(i * 10)).
-                    withAddress(randomString(i * 10)).
-                    withEmail(randomString(i * 10)).
-                    withPhones(randomNumber(empty)).
-                    withPhoto(randomFile("src/test/resources/images/")));
-            empty = false;
-        }
-        return result;
+        return generateData(() -> new ContactData().withFirstName(randomString(10)).
+                withLastName(randomString(10)).
+                withAddress(randomString(10)).
+                withEmail(randomString(10)).
+                withPhones(randomNumber()).
+                withPhoto(randomFile("src/test/resources/images/")));
     }
 
 }

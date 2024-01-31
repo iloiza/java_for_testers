@@ -15,13 +15,11 @@ public class CommonFunctions {
         return result;
     }
 
-    public static String randomNumber(Boolean empty) {
+    public static String randomNumber() {
         var rnd = new Random();
         var result = "";
-        if (!empty) {
             for (int i = 0; i < 11; i++) {
                 result = result + (char) ('0' + rnd.nextInt(10));
-            }
         }
         return result;
     }
