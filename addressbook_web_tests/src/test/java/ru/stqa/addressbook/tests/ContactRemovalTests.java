@@ -1,6 +1,5 @@
 package ru.stqa.addressbook.tests;
 
-import org.openqa.selenium.WebDriver;
 import ru.stqa.addressbook.common.CommonFunctions;
 import ru.stqa.addressbook.model.ContactData;
 import org.junit.jupiter.api.Assertions;
@@ -9,7 +8,6 @@ import ru.stqa.addressbook.model.GroupData;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 
 public class ContactRemovalTests extends TestBase {
@@ -22,7 +20,7 @@ public class ContactRemovalTests extends TestBase {
                 withPhoto(CommonFunctions.randomFile("src/test/resources/images/"));
         {
             if (app.hbm().getContactCount() == 0) {
-                app.hbm().createContacts(contact);
+                app.contacts().createContacts(contact);
             }
             var oldContacts = app.hbm().getContactList();
             var rnd = new Random();
@@ -51,7 +49,7 @@ public class ContactRemovalTests extends TestBase {
             if (app.hbm().getContactsInGroup(group).isEmpty()) {
                 app.contacts().createContactsInGroup(new ContactData("", "Potter", "Harry",
                         "London", "mrpotter@hw.ru", "9957774444",
-                        CommonFunctions.randomFile("src/test/resources/images/")), group);
+                        CommonFunctions.randomFile("src/test/resources/images/"), "", "", ""), group);
             }
             var essentialGroup = app.hbm().getGroupList().get(0);
             var oldRelated = app.hbm().getContactsInGroup(essentialGroup);

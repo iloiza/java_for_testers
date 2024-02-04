@@ -16,7 +16,7 @@ public class ContactModificationTests extends TestBase{
         {
             if (app.contacts().isContactsPresent()) {
                 app.contacts().createContacts(new ContactData("", "Potter", "Harry",
-                        "London", "mrpotter@hw.ru", "9957774444", ""));
+                        "London", "mrpotter@hw.ru", "", "", "", "", ""));
             }
         }
         var oldContacts = app.hbm().getContactList();

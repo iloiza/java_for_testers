@@ -20,6 +20,7 @@ public class ContactRecord {
     public String title= new String();
     public String home= new String();
     public String work= new String();
+    public String phone2 = new String();
     public String fax= new String();
     public String email2= new String();
     public String email3= new String();
@@ -30,13 +31,16 @@ public class ContactRecord {
             inverseJoinColumns = @JoinColumn(name = "id"))
 
     public List<GroupRecord> group;
-    public ContactRecord (int id, String firstName, String lastName, String address, String email, String mobile){
+    public ContactRecord (int id, String firstName, String lastName, String address, String email, String mobile, String home, String work, String fax){
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.email = email;
+        this.home = home;
         this.mobile = mobile;
+        this.work = work;
+        this.fax = fax;
     }
 
     public ContactRecord(){

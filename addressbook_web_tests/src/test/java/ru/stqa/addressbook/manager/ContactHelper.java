@@ -68,10 +68,16 @@ public class ContactHelper extends HelperBase {
     private void fillContactForm(ContactData contact) {
         type(By.name("firstname"), contact.firstName());
         type(By.name("lastname"), contact.lastName());
-        type(By.name("address"), contact.address());
-        type(By.name("mobile"), contact.phones());
-        type(By.name("email"), contact.email());
         attach(By.name("photo"), contact.photo());
+        type(By.name("address"), contact.address());
+        type(By.name("home"), contact.home());
+        type(By.name("mobile"), contact.mobile());
+        type(By.name("work"), contact.work());
+        type(By.name("fax"), contact.fax());
+        type(By.name("email"), contact.email());
+
+
+
 
     }
 
@@ -147,5 +153,8 @@ public class ContactHelper extends HelperBase {
     }
 
 
-
+    public String getPhones(ContactData contact) {
+       return manager.driver.findElement(By.xpath(
+                String.format("//input[@id='%s']/../../td[6]", contact.id()))).getText();
+    }
 }

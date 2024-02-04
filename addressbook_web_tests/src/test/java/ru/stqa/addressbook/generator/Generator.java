@@ -92,11 +92,15 @@ public class Generator {
     }
 
     private Object generateContacts() {
-        return generateData(() -> new ContactData().withFirstName(randomString(10)).
+        return generateData(() -> new ContactData().
+                withFirstName(randomString(10)).
                 withLastName(randomString(10)).
                 withAddress(randomString(10)).
-                withEmail(randomString(10)).
-                withPhones(randomNumber()).
+                withEmail(randomString(10) + "@email.ru").
+                withHomePhone(randomNumber()).
+                withMobilePhone(randomNumber()).
+                withWorkPhone(randomNumber()).
+                withFax(randomNumber()).
                 withPhoto(randomFile("src/test/resources/images/")));
     }
 
