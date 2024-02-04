@@ -14,7 +14,7 @@ public class ApplicationManager {
     private LoginHelper session;
     private GroupHelper groups;
     private ContactHelper contacts;
-    private Properties properties;
+    public Properties properties;
     private JdbcHelper jdbc;
     private HibernateHelper hbm;
 

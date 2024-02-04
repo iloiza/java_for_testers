@@ -17,6 +17,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 
 public class ContactCreationTests extends TestBase {
 
@@ -63,11 +64,11 @@ public class ContactCreationTests extends TestBase {
                 withFirstName(CommonFunctions.randomString(10)).
                 withPhoto(CommonFunctions.randomFile("src/test/resources/images/"));
         //D:\repo\java_for_testers\java_for_testers\addressbook_web_tests\src\test\resources\images
-        app.hbm().createContacts(contact);
+        app.contacts().createContacts(contact);
     }
 
     @Test
-    public void canCreateOneContactInGroup() {
+    public void canCreateNewContactInGroup() {
         var contact = new ContactData().
                 withLastName(CommonFunctions.randomString(10)).
                 withFirstName(CommonFunctions.randomString(10)).
@@ -79,6 +80,32 @@ public class ContactCreationTests extends TestBase {
 
         var oldRelated = app.hbm().getContactsInGroup(group);
         app.contacts().createContactsInGroup(contact, group);
+        var newRelated = app.hbm().getContactsInGroup(group);
+        Assertions.assertEquals(oldRelated.size() + 1, newRelated.size());
+    }
+
+    @Test
+    public void canAddExistingContactInGroup() {
+        var contact = new ContactData().
+                withLastName(CommonFunctions.randomString(10)).
+                withFirstName(CommonFunctions.randomString(10)).
+                withPhoto(CommonFunctions.randomFile("src/test/resources/images/"));
+
+            long temp = app.hbm().getContactCount();
+            if (app.hbm().getContactCount() == 0) {
+                app.hbm().createContacts(contact);
+            }
+
+        if (app.hbm().getGroupCount() == 0) {
+            app.hbm().createGroup(new GroupData("", "Group_1", "Header_Group", "Footer_Group"));
+        }
+        var group = app.hbm().getGroupList().get(0);
+        var existingContacts = app.hbm().getContactList();
+        var rnd = new Random();
+        var index = rnd.nextInt(existingContacts.size());
+
+        var oldRelated = app.hbm().getContactsInGroup(group);
+        app.contacts().addContactsInGroup(existingContacts.get(index), group);
         var newRelated = app.hbm().getContactsInGroup(group);
         Assertions.assertEquals(oldRelated.size() + 1, newRelated.size());
     }
