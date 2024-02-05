@@ -48,7 +48,7 @@ public class ContactRemovalTests extends TestBase {
             }
             if (app.hbm().getContactsInGroup(group).isEmpty()) {
                 app.contacts().createContactsInGroup(new ContactData("", "Potter", "Harry",
-                        "London", "mrpotter@hw.ru", "9957774444",
+                        "London", "mrpotter@hw.ru", "", "","9957774444",
                         CommonFunctions.randomFile("src/test/resources/images/"), "", "", ""), group);
             }
             var essentialGroup = app.hbm().getGroupList().get(0);

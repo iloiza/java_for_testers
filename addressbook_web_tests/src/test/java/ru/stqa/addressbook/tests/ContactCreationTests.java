@@ -76,6 +76,7 @@ public class ContactCreationTests extends TestBase {
         if (app.hbm().getGroupCount() == 0) {
             app.hbm().createGroup(new GroupData("", "Group_1", "Header_Group", "Footer_Group"));
         }
+
         var group = app.hbm().getGroupList().get(0);
 
         var oldRelated = app.hbm().getContactsInGroup(group);
@@ -86,12 +87,12 @@ public class ContactCreationTests extends TestBase {
 
     @Test
     public void canAddExistingContactInGroup() {
+
         var contact = new ContactData().
                 withLastName(CommonFunctions.randomString(10)).
                 withFirstName(CommonFunctions.randomString(10)).
                 withPhoto(CommonFunctions.randomFile("src/test/resources/images/"));
 
-            long temp = app.hbm().getContactCount();
             if (app.hbm().getContactCount() == 0) {
                 app.hbm().createContacts(contact);
             }
@@ -99,6 +100,7 @@ public class ContactCreationTests extends TestBase {
         if (app.hbm().getGroupCount() == 0) {
             app.hbm().createGroup(new GroupData("", "Group_1", "Header_Group", "Footer_Group"));
         }
+
         var group = app.hbm().getGroupList().get(0);
         var existingContacts = app.hbm().getContactList();
         var rnd = new Random();

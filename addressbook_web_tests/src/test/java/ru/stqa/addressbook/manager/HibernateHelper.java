@@ -48,12 +48,18 @@ public class HibernateHelper extends HelperBase {
         return records.stream().map(HibernateHelper::convert).collect(Collectors.toList());
     }
 
+    static List<GroupData> convertGroupList(List<GroupRecord> records){
+        return records.stream().map(HibernateHelper::convert).collect(Collectors.toList());
+    }
+
     private static ContactData convert(ContactRecord record){
         return new ContactData().withId("" + record.id)
                 .withFirstName(record.firstName)
                 .withLastName(record.lastName)
                 .withAddress(record.address)
                 .withEmail(record.email)
+                .withEmail(record.email2)
+                .withEmail(record.email3)
                 .withHomePhone(record.home)
                 .withMobilePhone(record.mobile)
                 .withWorkPhone(record.work)
@@ -94,6 +100,7 @@ public class HibernateHelper extends HelperBase {
         return sessionFactory.fromSession(session -> {
             return convertContactList(session.get(GroupRecord.class, group.id()).contacts);
         });
+
     }
 
     public List<ContactData> getContactList() {

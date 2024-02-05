@@ -44,4 +44,19 @@ public class JdbcHelper extends HelperBase{
             throw new RuntimeException(e);
         }
     }
+    public void findAnyContactNotInGroup(){
+        try (var conn = DriverManager.getConnection("jdbc:mysql://localhost/addressbook", "root", "");
+             var statement = conn.createStatement();
+             var result = statement.executeQuery
+                     ("SELECT * FROM addressbook WHERE id NOT IN (SELECT contact_id FROM address_in_groups)"))
+        {
+            while (result.next()){
+                int contactIdNotInGroup = result.getInt("id");
+                List<Integer> contactsNotInGroup = new ArrayList<>();
+                contactsNotInGroup.add(contactIdNotInGroup);
+            }
+        } catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -6,10 +6,9 @@ import ru.stqa.addressbook.model.ContactData;
 import org.openqa.selenium.By;
 import ru.stqa.addressbook.model.GroupData;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public class ContactHelper extends HelperBase {
@@ -160,6 +159,19 @@ public class ContactHelper extends HelperBase {
        return manager.driver.findElement(By.xpath(
                 String.format("//input[@id='%s']/../../td[6]", contact.id()))).getText();
     }
+    public String getAddress(ContactData contact) {
+        return manager.driver.findElement(By.xpath(
+                String.format("//input[@id='%s']/../../td[4]", contact.id()))).getText();
+    }
+    public String getEmails(ContactData contact) {
+        return manager.driver.findElement(By.xpath(
+                String.format("//input[@id='%s']/../../td[5]", contact.id()))).getText();
+    }
+
+    public void openEditContactPage(ContactData contact){
+        click(By.xpath(
+                String.format("//input[@id='%s']/../../td[8]//img", contact.id())));
+    }
 
         public Map<String,String> getPhones() {
         var result = new HashMap<String, String>();
@@ -169,5 +181,50 @@ public class ContactHelper extends HelperBase {
             var phones = row.findElements(By.tagName("td")).get(5).getText();
             result.put(id, phones);
         } return result;
+
+
     }
+    public Map<String,String> getContactInfoFromMainPage(ContactData contact) {
+
+        var result = new HashMap<String, String>();
+
+        var address = manager.driver.findElement(By.xpath(
+                String.format("//input[@id='%s']/../../td[4]", contact.id()))).
+                getText();
+        var emails = manager.driver.findElement(By.xpath(
+                String.format("//input[@id='%s']/../../td[5]", contact.id()))).
+                getText().replace("\n", " ");
+        var phones = manager.driver.findElement(By.xpath(
+                String.format("//input[@id='%s']/../../td[6]", contact.id()))).
+                getText().replace("\n", " ");
+            result.put("address", address);
+            result.put("emails", emails);
+            result.put("phones", phones);
+        return result;
+    }
+    public Map<String,String> getContactInfoFromEditPage(ContactData contact){
+        openEditContactPage(contact);
+
+        Map<String, String> result = new HashMap<>();
+        addNonEmptyValue(result, "address", "address");
+        addNonEmptyValue(result, "emails","email", "email2", "email3");
+        addNonEmptyValue(result, "phones","home", "mobile", "work", "fax");
+
+        return result;
+    }
+
+    private void addNonEmptyValue(Map<String, String> result, String key, String... fields) {
+        String value = Stream.of(fields)
+                .map(field -> manager.driver.findElement(By.name(field)).getAttribute("value"))
+                .filter(fieldValue -> !fieldValue.isEmpty())
+                .collect(Collectors.joining(" "));
+
+        if (!value.isEmpty()) {
+            result.put(key, value);
+        } else {
+            result.put(key, "");
+        }
+    }
+
 }
+

@@ -97,6 +97,8 @@ public class Generator {
                 withLastName(randomString(10)).
                 withAddress(randomString(10)).
                 withEmail(randomString(10) + "@email.ru").
+                withEmail2("").
+                withEmail3("").
                 withHomePhone(randomNumber()).
                 withMobilePhone(randomNumber()).
                 withWorkPhone(randomNumber()).

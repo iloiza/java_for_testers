@@ -37,6 +37,8 @@ public class ContactRecord {
         this.lastName = lastName;
         this.address = address;
         this.email = email;
+        this.email2 = email2;
+        this.email3 = email3;
         this.home = home;
         this.mobile = mobile;
         this.work = work;
