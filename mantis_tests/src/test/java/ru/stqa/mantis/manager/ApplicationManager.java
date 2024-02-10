@@ -13,16 +13,18 @@ public class ApplicationManager {
     private String string;
     private Properties properties;
     private SessionHelper sessionHelper;
+    private HttpSessionHelper httpSessionHelper;
+
     public void init(String browser, Properties properties) {
         this.string = browser;
         this.properties = properties;
     }
 
-    public WebDriver driver(){
-        if(driver == null){
-            if("chrome".equals(string)){
+    public WebDriver driver() {
+        if (driver == null) {
+            if ("chrome".equals(string)) {
                 driver = new ChromeDriver();
-            } else if("firefox".equals(string)){
+            } else if ("firefox".equals(string)) {
                 driver = new FirefoxDriver();
             } else {
                 throw new IllegalArgumentException(String.format("Unknown browser %s", string));
@@ -34,11 +36,23 @@ public class ApplicationManager {
         return driver;
     }
 
-    public SessionHelper session(){
-        if (sessionHelper == null){
+    public SessionHelper session() {
+        if (sessionHelper == null) {
             sessionHelper = new SessionHelper(this);
 
         }
         return sessionHelper;
+    }
+
+    public HttpSessionHelper http() {
+        if (httpSessionHelper == null) {
+            httpSessionHelper = new HttpSessionHelper(this);
+
+        }
+        return httpSessionHelper;
+    }
+
+    public String property(String name){
+        return properties.getProperty(name);
     }
 }
