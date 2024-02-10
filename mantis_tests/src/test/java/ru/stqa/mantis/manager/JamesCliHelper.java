@@ -16,9 +16,13 @@ public class JamesCliHelper extends HelperBase{
                 "AddUser", email, pass);
         cmd.setWorkingDirectory(manager.property("james.workingDir"));
         CircularOutputStream out = new CircularOutputStream();
+
         cmd.copyOutputTo(out);
         cmd.execute();
         cmd.waitFor();
+        System.out.println(out);
+
+
 
     }
 }
