@@ -20,12 +20,12 @@ public class ApplicationManager {
 
     public WebDriver driver(){
         if(driver == null){
-            if("chrome".equals(browser)){
+            if("chrome".equals(string)){
                 driver = new ChromeDriver();
-            } else if("firefox".equals(browser)){
+            } else if("firefox".equals(string)){
                 driver = new FirefoxDriver();
             } else {
-                throw new IllegalArgumentException(String.format("Unknown browser %s", browser));
+                throw new IllegalArgumentException(String.format("Unknown browser %s", string));
             }
             Runtime.getRuntime().addShutdownHook(new Thread(driver::quit));
             driver.get(properties.getProperty("web.baseURL"));
