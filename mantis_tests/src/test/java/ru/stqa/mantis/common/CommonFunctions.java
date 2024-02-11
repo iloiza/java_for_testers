@@ -1,9 +1,14 @@
 package ru.stqa.mantis.common;
 
+import ru.stqa.mantis.model.MailMessage;
+
 import java.io.File;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Random;
 import java.util.function.Supplier;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -26,5 +31,29 @@ public class CommonFunctions {
                 result = result + (char) ('0' + rnd.nextInt(10));
         }
         return result;
+    }
+    public static String extractLink(List<MailMessage> messages) {
+        String url = null;
+        if (!messages.isEmpty()) {
+            String text = messages.get(0).content();
+            Pattern pattern = Pattern.compile("http://\\S*");
+            Matcher matcher = pattern.matcher(text);
+            if (matcher.find()) {
+                url = text.substring(matcher.start(), matcher.end());
+            }
+        }
+        return url;
+    }
+
+    public static String extractLinkLikeText(String message) {
+        String url = null;
+        if (!message.isEmpty() && message != null) {
+            Pattern pattern = Pattern.compile("http://\\S*");
+            Matcher matcher = pattern.matcher(message);
+            if (matcher.find()) {
+                url = message.substring(matcher.start(), matcher.end());
+            }
+        }
+        return url;
     }
 }

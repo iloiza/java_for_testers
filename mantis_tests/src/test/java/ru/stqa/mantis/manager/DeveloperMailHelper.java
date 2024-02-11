@@ -1,12 +1,16 @@
 package ru.stqa.mantis.manager;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.*;
 import ru.stqa.mantis.manager.developermail.AddUserResponse;
+import ru.stqa.mantis.manager.developermail.GetIdsResponse;
+import ru.stqa.mantis.manager.developermail.GetMessageResponse;
 import ru.stqa.mantis.model.DeveloperMailUser;
 
 import java.io.IOException;
 import java.net.CookieManager;
+import java.time.Duration;
 
 import static ru.stqa.mantis.manager.JamesApiHelper.JSON;
 
@@ -39,7 +43,7 @@ public class DeveloperMailHelper extends HelperBase {
 
 
     public void deleteUser(DeveloperMailUser user) {
-        RequestBody body = RequestBody.create("", JSON);
+       // RequestBody body = RequestBody.create("", JSON);
         Request request = new Request.Builder()
                 .url(String.format("https://www.developermail.com/api/v1/mailbox/%s", user.name()))
                 .header("X-MailBoxToken", user.token())
@@ -48,6 +52,51 @@ public class DeveloperMailHelper extends HelperBase {
         try (Response response = client.newCall(request).execute()) {
             if (!response.isSuccessful()) throw new RuntimeException("Unexpected code " + response);
             System.out.println(response.body().string());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String receive(DeveloperMailUser user, Duration duration) {
+        var start = System.currentTimeMillis();
+        while (System.currentTimeMillis() < start + duration.toMillis()){
+
+            try {
+                var text1 = get(String.format("https://www.developermail.com/api/v1/mailbox/%s", user.name()), user.token());
+                var response1 = new ObjectMapper().readValue(text1, GetIdsResponse.class);
+                if(!response1.success()){
+                    throw new RuntimeException(response1.errors().toString());
+                }
+                if(response1.result().size() > 0) {
+                    var text2 = get(String.format("https://www.developermail.com/api/v1/mailbox/%s/messages/%s",
+                            user.name(), response1.result().get(0)), user.token());
+                    var response2 = new ObjectMapper().readValue(text2, GetMessageResponse.class);
+                    if(!response2.success()){
+                        throw new RuntimeException(response2.errors().toString());
+                    }
+                    return response2.result();
+                }
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        throw new RuntimeException("No mail");
+    }
+
+    String get (String url, String token){
+        Request request = new Request.Builder()
+                .url(url)
+                .header("X-MailBoxToken", token)
+                .build();
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) throw new RuntimeException("Unexpected code " + response);
+           return (response.body().string());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

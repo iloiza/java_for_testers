@@ -13,14 +13,14 @@ public class UserRegistrationTests extends TestBase{
     DeveloperMailUser user;
 
     @Test
-    void canRegisterUser() {
+    void canRegisterUser() throws InterruptedException {
         var username = CommonFunctions.randomString(8);
         var password = "password";
         var email = String.format("%s@localhost", username);
         app.jamesCli().addUser(email, password);
         app.user().userRegistration(username, email);
         var messages = app.mail().receive(email, password, Duration.ofSeconds(60));
-        var url = app.mail().extractLink(messages);
+        var url = CommonFunctions.extractLink(messages);
         app.mail().clickRegistrationLink(url);
         app.user().confirmAccount(username, password);
             app.http().login(username, password);
@@ -28,19 +28,19 @@ public class UserRegistrationTests extends TestBase{
         }
 
         @Test
-        void canRegisterUserApi() {
+        void canRegisterUserApi() throws InterruptedException {
             //var username = CommonFunctions.randomString(8);
             var password = "password";
 
             user = app.developerMail().addUser();
             var email = String.format("%s@developermail.com", user.name());
-//            app.user().userRegistration(user, email);
-//            var messages = app.mail().receive(email, password, Duration.ofSeconds(60));
-//            var url = app.mail().extractLink(messages);
-//            app.mail().clickRegistrationLink(url);
-//            app.user().confirmAccount(user, password);
-//            app.http().login(user, password);
-//            Assertions.assertTrue(app.http().isLoggedIn());
+            app.user().userRegistration(user.name(), email);
+            var message = app.developerMail().receive(user, Duration.ofSeconds(60));
+            var url = CommonFunctions.extractLinkLikeText(message);
+            app.mail().clickRegistrationLink(url);
+            app.user().confirmAccount(user.name(), password);
+            app.http().login(user.name(), password);
+            Assertions.assertTrue(app.http().isLoggedIn());
         }
 
         @AfterEach

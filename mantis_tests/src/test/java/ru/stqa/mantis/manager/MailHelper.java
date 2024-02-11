@@ -87,16 +87,5 @@ public class MailHelper extends HelperBase {
     }
 
 
-    public String extractLink(List<MailMessage> messages) {
-        String url = null;
-        if (!messages.isEmpty()) {
-            String text = messages.get(0).content();
-            Pattern pattern = Pattern.compile("http://\\S*");
-            Matcher matcher = pattern.matcher(text);
-            if (matcher.find()) {
-                url = text.substring(matcher.start(), matcher.end());
-            }
-        }
-        return url;
-    }
+
 }
