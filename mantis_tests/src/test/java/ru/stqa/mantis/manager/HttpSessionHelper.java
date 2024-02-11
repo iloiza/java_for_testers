@@ -31,7 +31,7 @@ public class HttpSessionHelper extends HelperBase{
 
     }
 
-    public boolean isLogetIn() {
+    public boolean isLoggedIn() {
         Request request = new Request.Builder()
                 .url(manager.property("web.baseURL"))
                 .build();
@@ -42,5 +42,6 @@ public class HttpSessionHelper extends HelperBase{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
     }
 }

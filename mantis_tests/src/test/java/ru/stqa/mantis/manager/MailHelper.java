@@ -8,8 +8,10 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class MailHelper extends HelperBase{
+public class MailHelper extends HelperBase {
     public MailHelper(ApplicationManager manager) {
         super(manager);
     }
@@ -21,18 +23,18 @@ public class MailHelper extends HelperBase{
                 var inbox = getInbox(user, pass);
                 inbox.open(Folder.READ_ONLY);
                 var messages = inbox.getMessages();
-                var result =  Arrays.stream(messages).map(m -> {
+                var result = Arrays.stream(messages).map(m -> {
                     try {
                         return new MailMessage()
                                 .withFrom(m.getFrom()[0].toString())
-                                .withContent((String)m.getContent());
+                                .withContent((String) m.getContent());
                     } catch (MessagingException | IOException e) {
                         throw new RuntimeException(e);
                     }
                 }).toList();
                 inbox.close();
                 inbox.getStore().close();
-                if(result.size() > 0){
+                if (result.size() > 0) {
                     return result;
                 }
 
@@ -50,7 +52,7 @@ public class MailHelper extends HelperBase{
 
     }
 
-    private static Folder getInbox(String user, String pass)  {
+    private static Folder getInbox(String user, String pass) {
 
         try {
             var session = Session.getInstance(new Properties());
@@ -64,7 +66,7 @@ public class MailHelper extends HelperBase{
 
     }
 
-    public void drain(String user, String pass){
+    public void drain(String user, String pass) {
         var inbox = getInbox(user, pass);
         try {
             inbox.open(Folder.READ_WRITE);
@@ -82,5 +84,19 @@ public class MailHelper extends HelperBase{
         }
 
 
+    }
+
+
+    public String extractLink(List<MailMessage> messages) {
+        String url = null;
+        if (!messages.isEmpty()) {
+            String text = messages.get(0).content();
+            Pattern pattern = Pattern.compile("http://\\S*");
+            Matcher matcher = pattern.matcher(text);
+            if (matcher.find()) {
+                url = text.substring(matcher.start(), matcher.end());
+            }
+        }
+        return url;
     }
 }
