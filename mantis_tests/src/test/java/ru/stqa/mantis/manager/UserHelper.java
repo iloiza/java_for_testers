@@ -11,7 +11,6 @@ public class UserHelper extends HelperBase{
         click(By.linkText("Signup for a new account"));
         type(By.id("username"), username);
         type(By.id("email-field"), email);
-        Thread.sleep(5000);
         click(By.cssSelector("input[type='submit']"));
     }
 

@@ -31,8 +31,9 @@ public class HelperBase {
          return manager.driver().findElements(locator).size() > 0;
     }
 
-    public void clickRegistrationLink(String url){
+    public void clickRegistrationLink(String url) throws InterruptedException {
         manager.driver().get(url);
+        Thread.sleep(5000);
         //manager.driver().close();
     }
 

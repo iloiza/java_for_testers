@@ -46,14 +46,16 @@ public class CommonFunctions {
     }
 
     public static String extractLinkLikeText(String message) {
-        String url = null;
-        if (!message.isEmpty() && message != null) {
-            Pattern pattern = Pattern.compile("http://\\S*");
+        if (message != null && !message.isEmpty()) {
+            message = message.replaceAll("3D", "");
+            message = message.replaceAll("=\\r", "");
+            message = message.replaceAll("\\n", "");
+            Pattern pattern = Pattern.compile("http://\\S+");
             Matcher matcher = pattern.matcher(message);
             if (matcher.find()) {
-                url = message.substring(matcher.start(), matcher.end());
+                return message.substring(matcher.start(), matcher.end());
             }
         }
-        return url;
+        return null;
     }
 }

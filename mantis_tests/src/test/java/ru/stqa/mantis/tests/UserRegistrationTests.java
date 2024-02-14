@@ -31,23 +31,27 @@ public class UserRegistrationTests extends TestBase{
         void canRegisterUserApi() throws InterruptedException {
             //var username = CommonFunctions.randomString(8);
             var password = "password";
-
             user = app.developerMail().addUser();
             var email = String.format("%s@developermail.com", user.name());
             app.user().userRegistration(user.name(), email);
             var message = app.developerMail().receive(user, Duration.ofSeconds(60));
             var url = CommonFunctions.extractLinkLikeText(message);
             app.mail().clickRegistrationLink(url);
+            //Thread.sleep(5000);
             app.user().confirmAccount(user.name(), password);
             app.http().login(user.name(), password);
             Assertions.assertTrue(app.http().isLoggedIn());
         }
 
-        @AfterEach
+
+
+    @AfterEach
     void deleteMailUser(){
             app.developerMail().deleteUser(user);
         }
 
 }
+
+
 
 
