@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.stqa.mantis.common.CommonFunctions;
 import ru.stqa.mantis.model.DeveloperMailUser;
+import ru.stqa.mantis.model.UserData;
 
 import java.time.Duration;
 
@@ -19,7 +20,7 @@ public class UserRegistrationTests extends TestBase{
         var email = String.format("%s@localhost", username);
         app.jamesCli().addUser(email, password);
         app.user().userRegistration(username, email);
-        var messages = app.mail().receive(email, password, Duration.ofSeconds(60));
+        var messages = app.mail().receive(email, password, Duration.ofSeconds(120));
         var url = CommonFunctions.extractLink(messages);
         app.mail().clickRegistrationLink(url);
         app.user().confirmAccount(username, password);
@@ -37,18 +38,36 @@ public class UserRegistrationTests extends TestBase{
             var message = app.developerMail().receive(user, Duration.ofSeconds(60));
             var url = CommonFunctions.extractLinkLikeText(message);
             app.mail().clickRegistrationLink(url);
-            //Thread.sleep(5000);
             app.user().confirmAccount(user.name(), password);
             app.http().login(user.name(), password);
             Assertions.assertTrue(app.http().isLoggedIn());
         }
 
+    @Test
+    void canRegisterUserRestApi() throws InterruptedException {
+        var username = "000" + CommonFunctions.randomString(5);
+        var password = "password";
+        var email = String.format("%s@localhost", username);
+        app.jamesApi().addUser(email, password);
+
+        app.rest().userRegistration(new UserData()
+                .withEmail(email)
+                .withPassword(password)
+                .withUsername(username));
+        var messages = app.mail().receive(email, password, Duration.ofSeconds(60));
+        var url = CommonFunctions.extractLink(messages);
+        app.mail().clickRegistrationLink(url);
+        app.user().confirmAccount(username, password);
+        app.http().login(username, password);
+        Assertions.assertTrue(app.http().isLoggedIn());
+    }
 
 
-    @AfterEach
-    void deleteMailUser(){
-            app.developerMail().deleteUser(user);
-        }
+
+//    @AfterEach
+//    void deleteMailUser(){
+//            app.developerMail().deleteUser(user);
+//        }
 
 }
 
