@@ -23,9 +23,9 @@ public class CommonFunctions {
         var rnd = new Random();
         var result = "";
             for (int i = 0; i < 11; i++) {
-                result = result + (char) ('0' + rnd.nextInt(10));
+                result = result + (char) ('0' + rnd.nextInt(9));
         }
-        return result;
+        return "7" +result;
     }
 
     public static String randomFile(String dir){

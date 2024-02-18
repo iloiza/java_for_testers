@@ -210,7 +210,7 @@ public class ContactHelper extends HelperBase {
         Map<String, String> result = new HashMap<>();
         addNonEmptyValue(result, "address", "address");
         addNonEmptyValue(result, "emails","email", "email2", "email3");
-        addNonEmptyValue(result, "phones","home", "mobile", "work", "fax");
+        addNonEmptyValue(result, "phones","home", "mobile", "work");
 
         return result;
     }

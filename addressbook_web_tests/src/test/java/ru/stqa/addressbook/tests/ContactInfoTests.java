@@ -3,6 +3,7 @@ package ru.stqa.addressbook.tests;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.stqa.addressbook.common.CommonFunctions;
+import ru.stqa.addressbook.manager.HelperBase;
 import ru.stqa.addressbook.model.ContactData;
 
 import java.util.Random;
@@ -28,6 +29,7 @@ public class ContactInfoTests extends TestBase {
             if (app.hbm().getContactCount() == 0) {
                 app.contacts().createContacts(newContact);
             }
+            new HelperBase(app).openHomePage();
             var contacts = app.hbm().getContactList();
             var expected = contacts.stream().collect(Collectors.toMap(ContactData::id, contact ->
                     Stream.of(contact.home(), contact.mobile(), contact.work())//, contact.fax())
@@ -36,12 +38,6 @@ public class ContactInfoTests extends TestBase {
             ));
             var phones = app.contacts().getPhones();
             Assertions.assertEquals(expected, phones);
-//            for (var contact : contacts) {
-//                 var expected = Stream.of(contact.home(), contact.mobile(), contact.work())//, contact.fax())
-//                        .filter(s -> s != null && !"".equals(s))
-//                        .collect(Collectors.joining("\n"));
-//                Assertions.assertEquals(expected, phones.get(contact.id()));
-//            }
 
         }
     }
