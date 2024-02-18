@@ -30,7 +30,7 @@ public class ContactInfoTests extends TestBase {
             var contacts = app.hbm().getContactList();
             var expected = contacts.stream().collect(Collectors.toMap(ContactData::id, contact ->
                     Stream.of(contact.home(), contact.mobile(), contact.work())//, contact.fax())
-                            .filter(s -> s != null && !"".equals(s))
+                            .filter(s -> s != null && !s.isEmpty())
                             .collect(Collectors.joining("\n"))
             ));
             var phones = app.contacts().getPhones();
