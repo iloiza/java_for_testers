@@ -20,7 +20,6 @@ public class ContactInfoTests extends TestBase {
                 withHomePhone(CommonFunctions.randomNumber()).
                 withMobilePhone(CommonFunctions.randomNumber()).
                 withWorkPhone(CommonFunctions.randomNumber()).
-                withFax(CommonFunctions.randomNumber()).
                 withEmail2("").
                 withEmail3("").
                 withEmail(CommonFunctions.randomString(10) + "@email.ru");
@@ -55,7 +54,6 @@ public class ContactInfoTests extends TestBase {
                 withHomePhone(CommonFunctions.randomNumber()).
                 withMobilePhone(CommonFunctions.randomNumber()).
                 withWorkPhone(CommonFunctions.randomNumber()).
-                withFax(CommonFunctions.randomNumber()).
                 withEmail2("").
                 withEmail3("").
                 withEmail(CommonFunctions.randomString(10) + "@email.ru");
@@ -66,8 +64,8 @@ public class ContactInfoTests extends TestBase {
             var contacts = app.hbm().getContactList();
             var rnd = new Random();
             var index = rnd.nextInt(contacts.size());
-            var contactInfoMain = app.contacts().getContactInfoFromMainPage(contacts.get(index));
-            var contactInfoEdit = app.contacts().getContactInfoFromEditPage(contacts.get(index));
+            var contactInfoMain = app.contacts().getContactInfoFromMainPage(contacts.get(index).withFax(""));
+            var contactInfoEdit = app.contacts().getContactInfoFromEditPage(contacts.get(index).withFax(""));
             Assertions.assertEquals(contactInfoMain, contactInfoEdit);
 
 

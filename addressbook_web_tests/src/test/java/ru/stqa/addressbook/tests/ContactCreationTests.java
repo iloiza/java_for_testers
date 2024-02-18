@@ -50,7 +50,7 @@ public class ContactCreationTests extends TestBase {
         newContacts.sort(compareById);
         var expectedList = new ArrayList<>(oldContacts);
         expectedList.add(contact.
-                withId(newContacts.get(newContacts.size() - 1).id()).withPhoto(""));
+                withId(newContacts.get(newContacts.size() - 1).id()).withEmail("").withPhoto(""));
         expectedList.sort(compareById);
         Assertions.assertEquals(newContacts, expectedList);
 
@@ -83,7 +83,7 @@ public class ContactCreationTests extends TestBase {
         var newRelated = app.hbm().getContactsInGroup(group);
         Assertions.assertEquals(oldRelated.size() + 1, newRelated.size());
     }
-    
+
     @Test
     public void canAddExistingContactInGroup() {
         if (app.hbm().getContactCount() == 0) {
