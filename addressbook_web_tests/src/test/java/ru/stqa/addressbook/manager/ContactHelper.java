@@ -33,6 +33,7 @@ public class ContactHelper extends HelperBase {
     }
 
     public void addContactsInGroup(ContactData contact, GroupData group) {
+        openHomePage();
         selectContact(contact);
         selectGroupForAdding(group);
         submitAddingContactInGroup();
@@ -48,6 +49,7 @@ public class ContactHelper extends HelperBase {
     }
 
     public void removeContactFromGroup(ContactData contact, GroupData group) {
+
         selectGroupWithContactList(group);
         selectContact(contact);
         waiting();

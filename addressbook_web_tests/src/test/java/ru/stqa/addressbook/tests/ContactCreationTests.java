@@ -2,7 +2,6 @@ package ru.stqa.addressbook.tests;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -17,7 +16,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Random;
 
 public class ContactCreationTests extends TestBase {
 
@@ -34,7 +32,8 @@ public class ContactCreationTests extends TestBase {
 //        return result;
         var json = Files.readString(Paths.get("contacts.json"));
         ObjectMapper mapper = new ObjectMapper();
-        var value = mapper.readValue(json, new TypeReference<List<ContactData>>() {});
+        var value = mapper.readValue(json, new TypeReference<List<ContactData>>() {
+        });
         result.addAll(value);
         return result;
     }
@@ -84,31 +83,38 @@ public class ContactCreationTests extends TestBase {
         var newRelated = app.hbm().getContactsInGroup(group);
         Assertions.assertEquals(oldRelated.size() + 1, newRelated.size());
     }
-
+    
     @Test
     public void canAddExistingContactInGroup() {
-
-        var contact = new ContactData().
-                withLastName(CommonFunctions.randomString(10)).
-                withFirstName(CommonFunctions.randomString(10)).
-                withPhoto(CommonFunctions.randomFile("src/test/resources/images/"));
-
-            if (app.hbm().getContactCount() == 0) {
-                app.hbm().createContacts(contact);
-            }
-
+        if (app.hbm().getContactCount() == 0) {
+            app.hbm().createContacts(new ContactData()
+                    .withLastName(CommonFunctions.randomString(10))
+                    .withFirstName(CommonFunctions.randomString(10))
+                    .withPhoto(CommonFunctions.randomFile("src/test/resources/images/")));
+        }
         if (app.hbm().getGroupCount() == 0) {
             app.hbm().createGroup(new GroupData("", "Group_1", "Header_Group", "Footer_Group"));
         }
+        List<ContactData> allContacts = app.hbm().getContactList();
+        List<GroupData> allGroups = app.hbm().getGroupList();
+        ContactData contactToAdd = allContacts.stream()
+                .filter(contact -> !app.hbm().isContactInAnyGroup(contact))
+                .findFirst()
+                .orElseGet(() -> {
+                    ContactData newContact = new ContactData()
+                            .withLastName(CommonFunctions.randomString(10))
+                            .withFirstName(CommonFunctions.randomString(10))
+                            .withPhoto(CommonFunctions.randomFile("src/test/resources/images/"));
+                    app.hbm().createContacts(newContact);
+                    var newContacts = app.hbm().getContactList();
+                    return newContact.withId(String.valueOf(newContacts.get(newContacts.size() - 1).id()));
+                });
 
-        var group = app.hbm().getGroupList().get(0);
-        var existingContacts = app.hbm().getContactList();
-        var rnd = new Random();
-        var index = rnd.nextInt(existingContacts.size());
-
-        var oldRelated = app.hbm().getContactsInGroup(group);
-        app.contacts().addContactsInGroup(existingContacts.get(index), group);
-        var newRelated = app.hbm().getContactsInGroup(group);
+        var oldRelated = app.hbm().getContactsInGroup(allGroups.get(0));
+        app.contacts().addContactsInGroup(contactToAdd, allGroups.get(0));
+        var newRelated = app.hbm().getContactsInGroup(allGroups.get(0));
         Assertions.assertEquals(oldRelated.size() + 1, newRelated.size());
+
     }
+
 }
