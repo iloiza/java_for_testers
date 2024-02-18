@@ -102,7 +102,7 @@ public class Generator {
                 withHomePhone(randomNumber()).
                 withMobilePhone(randomNumber()).
                 withWorkPhone(randomNumber()).
-                withFax(randomNumber()).
+                withFax("").
                 withPhoto(randomFile("src/test/resources/images/")));
     }
 

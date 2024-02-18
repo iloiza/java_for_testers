@@ -20,6 +20,7 @@ public class ContactInfoTests extends TestBase {
                 withHomePhone(CommonFunctions.randomNumber()).
                 withMobilePhone(CommonFunctions.randomNumber()).
                 withWorkPhone(CommonFunctions.randomNumber()).
+                withFax("").
                 withEmail2("").
                 withEmail3("").
                 withEmail(CommonFunctions.randomString(10) + "@email.ru");
@@ -54,6 +55,7 @@ public class ContactInfoTests extends TestBase {
                 withHomePhone(CommonFunctions.randomNumber()).
                 withMobilePhone(CommonFunctions.randomNumber()).
                 withWorkPhone(CommonFunctions.randomNumber()).
+                withFax("").
                 withEmail2("").
                 withEmail3("").
                 withEmail(CommonFunctions.randomString(10) + "@email.ru");
