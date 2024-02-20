@@ -2,6 +2,7 @@ package ru.stqa.addressbook.tests;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.qameta.allure.Allure;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -52,7 +53,9 @@ public class ContactCreationTests extends TestBase {
         expectedList.add(contact.
                 withId(newContacts.get(newContacts.size() - 1).id()).withEmail("").withPhoto(""));
         expectedList.sort(compareById);
-        Assertions.assertEquals(newContacts, expectedList);
+        Allure.step("Validating results", step -> {
+            Assertions.assertEquals(newContacts, expectedList);
+        });
 
     }
 
@@ -72,29 +75,36 @@ public class ContactCreationTests extends TestBase {
                 withLastName(CommonFunctions.randomString(10)).
                 withFirstName(CommonFunctions.randomString(10)).
                 withPhoto(CommonFunctions.randomFile("src/test/resources/images/"));
-        if (app.hbm().getGroupCount() == 0) {
-            app.hbm().createGroup(new GroupData("", "Group_1", "Header_Group", "Footer_Group"));
-        }
+        Allure.step("Checking precondition", step -> {
+            if (app.hbm().getGroupCount() == 0) {
+                app.hbm().createGroup(new GroupData("", "Group_1", "Header_Group", "Footer_Group"));
+            }
+        });
 
         var group = app.hbm().getGroupList().get(0);
 
         var oldRelated = app.hbm().getContactsInGroup(group);
         app.contacts().createContactsInGroup(contact, group);
         var newRelated = app.hbm().getContactsInGroup(group);
-        Assertions.assertEquals(oldRelated.size() + 1, newRelated.size());
+        Allure.step("Validating results", step -> {
+            Assertions.assertEquals(oldRelated.size() + 1, newRelated.size());
+        });
     }
 
     @Test
     public void canAddExistingContactInGroup() {
-        if (app.hbm().getContactCount() == 0) {
-            app.hbm().createContacts(new ContactData()
-                    .withLastName(CommonFunctions.randomString(10))
-                    .withFirstName(CommonFunctions.randomString(10))
-                    .withPhoto(CommonFunctions.randomFile("src/test/resources/images/")));
-        }
-        if (app.hbm().getGroupCount() == 0) {
-            app.hbm().createGroup(new GroupData("", "Group_1", "Header_Group", "Footer_Group"));
-        }
+        Allure.step("Checking precondition", step -> {
+            if (app.hbm().getContactCount() == 0) {
+                app.hbm().createContacts(new ContactData()
+                        .withLastName(CommonFunctions.randomString(10))
+                        .withFirstName(CommonFunctions.randomString(10))
+                        .withPhoto(CommonFunctions.randomFile("src/test/resources/images/")));
+            }
+            if (app.hbm().getGroupCount() == 0) {
+                app.hbm().createGroup(new GroupData("", "Group_1", "Header_Group", "Footer_Group"));
+            }
+        });
+
         List<ContactData> allContacts = app.hbm().getContactList();
         List<GroupData> allGroups = app.hbm().getGroupList();
         ContactData contactToAdd = allContacts.stream()
@@ -113,7 +123,9 @@ public class ContactCreationTests extends TestBase {
         var oldRelated = app.hbm().getContactsInGroup(allGroups.get(0));
         app.contacts().addContactsInGroup(contactToAdd, allGroups.get(0));
         var newRelated = app.hbm().getContactsInGroup(allGroups.get(0));
-        Assertions.assertEquals(oldRelated.size() + 1, newRelated.size());
+        Allure.step("Validating results", step -> {
+            Assertions.assertEquals(oldRelated.size() + 1, newRelated.size());
+        });
 
     }
 

@@ -1,5 +1,6 @@
 package ru.stqa.addressbook.manager;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import ru.stqa.addressbook.model.ContactData;
@@ -16,13 +17,14 @@ public class ContactHelper extends HelperBase {
         super(manager);
     }
 
+    @Step
     public void createContacts(ContactData contact) {
         openContactCreationPage();
         fillContactForm(contact);
         submitItemCreation();
         returnToHomePage();
     }
-
+    @Step
     public void createContactsInGroup(ContactData contact, GroupData group) {
         openContactCreationPage();
         fillContactForm(contact);
@@ -31,7 +33,7 @@ public class ContactHelper extends HelperBase {
         waiting();
         returnToHomePage();
     }
-
+    @Step
     public void addContactsInGroup(ContactData contact, GroupData group) {
         openHomePage();
         selectContact(contact);
@@ -47,7 +49,7 @@ public class ContactHelper extends HelperBase {
         new Select(manager.driver.findElement(By.name("to_group"))).selectByValue(group.id());
 
     }
-
+    @Step
     public void removeContactFromGroup(ContactData contact, GroupData group) {
 
         selectGroupWithContactList(group);
@@ -68,7 +70,7 @@ public class ContactHelper extends HelperBase {
        new Select(manager.driver.findElement(By.name("new_group"))).selectByValue(group.id());
     }
 
-
+    @Step
     private void fillContactForm(ContactData contact) {
         type(By.name("firstname"), contact.firstName());
         type(By.name("lastname"), contact.lastName());
@@ -84,7 +86,7 @@ public class ContactHelper extends HelperBase {
 
 
     }
-
+    @Step
     public void modifyContact(ContactData contact, ContactData modifiedContact) {
         initContactModification(contact);
         fillContactForm(modifiedContact);
@@ -96,7 +98,7 @@ public class ContactHelper extends HelperBase {
         selectAllContacts();
         removeSelectedContact();
     }
-
+    @Step
     public void removeContact(ContactData contact) {
         waiting();
         openHomePage();
@@ -174,7 +176,7 @@ public class ContactHelper extends HelperBase {
         click(By.xpath(
                 String.format("//input[@id='%s']/../../td[8]//img", contact.id())));
     }
-
+    @Step
         public Map<String,String> getPhones() {
         var result = new HashMap<String, String>();
         List<WebElement> rows = manager.driver.findElements(By.name("entry"));
@@ -186,6 +188,7 @@ public class ContactHelper extends HelperBase {
 
 
     }
+    @Step
     public Map<String,String> getContactInfoFromMainPage(ContactData contact) {
 
         var result = new HashMap<String, String>();
@@ -204,6 +207,7 @@ public class ContactHelper extends HelperBase {
             result.put("phones", phones);
         return result;
     }
+    @Step
     public Map<String,String> getContactInfoFromEditPage(ContactData contact){
         openEditContactPage(contact);
 

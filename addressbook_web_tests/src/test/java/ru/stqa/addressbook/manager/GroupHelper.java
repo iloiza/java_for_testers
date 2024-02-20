@@ -15,7 +15,7 @@ public class GroupHelper extends HelperBase {
         super(manager);
 
     }
-
+    @Step
     public void createGroup(GroupData group) {
         openGroupPage();
         initGroupCreation();
@@ -23,7 +23,7 @@ public class GroupHelper extends HelperBase {
         submitItemCreation();
         returnToGroupsPage();
     }
-
+    @Step
     public void modifyGroup(GroupData group, GroupData modifiedGroup) {
         openGroupPage();
         selectGroup(group);
@@ -40,7 +40,7 @@ public class GroupHelper extends HelperBase {
         removeSelectedGroups();
         returnToGroupsPage();
     }
-
+    @Step
     public void removeAllGroups() {
         openGroupPage();
         selectAllGroups();
@@ -65,7 +65,7 @@ public class GroupHelper extends HelperBase {
     private void returnToGroupsPage() {
         click(By.linkText("group page"));
     }
-
+    @Step
     private void fillGroupForm(GroupData group) {
         type(By.name("group_name"), group.name());
         type(By.name("group_header"), group.header());
@@ -90,7 +90,7 @@ public class GroupHelper extends HelperBase {
                 .findElements(By.name("selected[]"))
                 .forEach(WebElement::click);
     }
-
+    @Step
     public List<GroupData> getList() {
         openGroupPage();
         var spans = manager.driver.findElements(By.cssSelector("span.group"));

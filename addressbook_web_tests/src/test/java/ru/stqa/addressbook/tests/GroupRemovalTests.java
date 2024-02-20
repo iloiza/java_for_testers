@@ -28,18 +28,22 @@ public class GroupRemovalTests extends TestBase {
             Allure.step("Validating results", step -> {
                 Assertions.assertEquals(newGroups, expectedList);
             });
-            
+
     }
 
     @Test
     void canRemoveAllGroupsAtOnce() {
-        {
+        Allure.step("Checking precondition", step ->{
             if (app.hbm().getGroupCount() == 0) {
                 app.hbm().createGroup(new GroupData("", "Group_1", "Header_Group", "Footer_Group"));
             }
-        }
+        });
+
         app.groups().removeAllGroups();
-        Assertions.assertEquals(0, app.hbm().getGroupCount());
+        Allure.step("Validating results", step -> {
+            Assertions.assertEquals(0, app.hbm().getGroupCount());
+        });
+
 
     }
 }

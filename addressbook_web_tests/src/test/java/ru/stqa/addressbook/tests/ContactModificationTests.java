@@ -1,5 +1,6 @@
 package ru.stqa.addressbook.tests;
 
+import io.qameta.allure.Allure;
 import ru.stqa.addressbook.common.CommonFunctions;
 import ru.stqa.addressbook.model.ContactData;
 import org.junit.jupiter.api.Assertions;
@@ -13,12 +14,15 @@ public class ContactModificationTests extends TestBase{
 
     @Test
     void canModifyContact(){
-        {
-            if (app.contacts().isContactsPresent()) {
-                app.contacts().createContacts(new ContactData("", "Potter", "Harry",
-                        "London", "mrpotter@hw.ru", "", "", CommonFunctions.randomFile("src/test/resources/images/"), "", "", "", ""));
+        Allure.step("Checking precondition", step -> {
+            {
+                if (app.contacts().isContactsPresent()) {
+                    app.contacts().createContacts(new ContactData("", "Potter", "Harry",
+                            "London", "mrpotter@hw.ru", "", "", CommonFunctions.randomFile("src/test/resources/images/"), "", "", "", ""));
+                }
             }
-        }
+        });
+
         var oldContacts = app.hbm().getContactList();
         var rnd = new Random();
         var index = rnd.nextInt(oldContacts.size());
@@ -33,6 +37,8 @@ public class ContactModificationTests extends TestBase{
         };
         newContacts.sort(compareById);
         expectedList.sort(compareById);
-        Assertions.assertEquals(expectedList, newContacts);
+        Allure.step("Validating results", step -> {
+            Assertions.assertEquals(expectedList, newContacts);
+        });
     }
 }
